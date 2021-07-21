@@ -14,7 +14,7 @@ program
   .requiredOption(
     '-c, --config <path-to-config>',
     'path to config file',
-    `~/.code-files-gen-config.js`,
+    `~/template-files-generator.config.js`,
   )
   .parse(process.argv);
 
@@ -49,19 +49,6 @@ const options = program.opts();
     name: 'location',
     message: 'Where do you want to generate it? (e.g. src/components)',
     filter: (input) => _.trim(input, '/'), // trim leading/trailing whitespace and slashes
-    validate: (input) => {
-      if (!input) {
-        return false;
-      }
-
-      const destinationDirectory = path.join(process.cwd(), input);
-
-      if (fs.existsSync(destinationDirectory)) {
-        return 'Refusing to overwrite directory. Try a different path, or delete that directory and try again.';
-      }
-
-      return true;
-    },
   });
 
   const variablesConfig: Array<

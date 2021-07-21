@@ -1,12 +1,14 @@
 {
-  "name": "code-files-generator",
+  "name": "template-files-generator",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "bin": {
+    "tfg": "./dist/index.js"
+  },
   "scripts": {
     "build": "rollup -c",
-    "generate": "ts-node index.ts"
+    "template-files-generator": "ts-node src/index.ts",
+    "link-global": "yarn global add $PWD"
   },
   "dependencies": {
     "chalk": "^4.1.1",
@@ -21,6 +23,8 @@
     "@types/lodash": "^4.14.171",
     "@types/node": "^16.3.3",
     "rollup": "^2.53.3",
+    "rollup-plugin-add-shebang": "^0.3.1",
+    "rollup-plugin-executable": "^1.6.3",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-node": "^10.1.0"
   }

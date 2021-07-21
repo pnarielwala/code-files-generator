@@ -1,16 +1,15 @@
 import typescript from 'rollup-plugin-typescript2';
+import executable from 'rollup-plugin-executable';
+import shebang from 'rollup-plugin-add-shebang';
+
 import pkg from './package.json';
 
 export default {
   input: 'src/index.ts',
   output: [
     {
-      file: pkg.main,
+      file: pkg.bin.tfg,
       format: 'cjs',
-    },
-    {
-      file: pkg.module,
-      format: 'es',
     },
   ],
   external: [
@@ -20,6 +19,15 @@ export default {
   plugins: [
     typescript({
       typescript: require('typescript'),
+      tsconfigOverride: {
+        compilerOptions: {
+          module: 'esnext',
+        },
+      },
+    }),
+    executable(),
+    shebang({
+      include: 'dist/index.js',
     }),
   ],
 };
