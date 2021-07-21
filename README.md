@@ -4,6 +4,6 @@ Tool to make it easy to create file/code templates and generate them for any giv
 
 ### TODO
 
-- [ ] allow for config path
-- [ ] package for npm module
+- [x] allow for config path
+- [x] package for npm module
 - [ ] be able to install globally
