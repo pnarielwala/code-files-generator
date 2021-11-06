@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+
+import {{componentName}} from './{{componentName}}'
+
+<Meta title="{{componentName}}" />
+
+# {{componentName}}
+
+Description of your new component. If this component does not
+need a Storybook entry, you can delete this file.
+
+<Canvas>
+  <Story name="Default">
+    <{{componentName}} />
+  </Story>
+</Canvas>
+
+## Another Example
+
+You might need to demonstrate different component states or
+properties. Add an entry for each.
+
+<Canvas>
+  <Story name="Another Example">
+    <{{componentName}} />
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={ {{componentName}} } />

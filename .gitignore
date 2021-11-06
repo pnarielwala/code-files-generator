@@ -2,4 +2,7 @@
 /dist
 /test
 
+/templates
+/tfgconfig.json
+
 yarn-error.log
