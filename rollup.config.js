@@ -1,6 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import executable from 'rollup-plugin-executable';
 import shebang from 'rollup-plugin-add-shebang';
+import copy from 'rollup-plugin-copy';
 
 import pkg from './package.json';
 
@@ -28,6 +29,9 @@ export default {
     executable(),
     shebang({
       include: 'dist/index.js',
+    }),
+    copy({
+      targets: [{ src: 'src/example', dest: 'dist' }],
     }),
   ],
 };
