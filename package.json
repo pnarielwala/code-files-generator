@@ -5,6 +5,10 @@
   "bin": {
     "tfg": "./dist/index.js"
   },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c",
     "commit": "git add . && git commit",

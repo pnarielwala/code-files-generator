@@ -7,7 +7,7 @@ on:
 
 jobs:
   typecheck:
-    name: Run Typescript typecheck
+    name: Typecheck
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
   #     - name: Run unit tests
   #       run: yarn test
   build:
-    name: Build package
+    name: Build
     needs: typecheck
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +50,7 @@ jobs:
       - name: Build tool
         run: yarn build
   publish:
-    name: Publish to NPM
+    name: Publish
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -66,4 +66,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn semantic-release --debug
