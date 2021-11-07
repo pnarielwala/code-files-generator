@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "commit": "git add . && git commit",
     "link-global": "yarn global add $PWD",
     "template-files-generator": "ts-node src/index.ts",
     "tfg": "ts-node src/index.ts",
@@ -33,6 +34,8 @@
     "@types/node": "^16.3.3",
     "@types/validatorjs": "^3.15.0",
     "babel-jest": "^27.0.6",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^7.0.4",
     "jest": "^27.0.6",
     "rollup": "^2.53.3",
     "rollup-plugin-add-shebang": "^0.3.1",
@@ -42,5 +45,10 @@
   },
   "jest": {
     "verbose": true
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
