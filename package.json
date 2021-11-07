@@ -1,6 +1,6 @@
 {
   "name": "template-files-generator",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "license": "MIT",
   "bin": {
     "tfg": "./dist/index.js"
@@ -11,7 +11,8 @@
     "link-global": "yarn global add $PWD",
     "template-files-generator": "ts-node src/index.ts",
     "tfg": "ts-node src/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "chalk": "^4.1.1",
@@ -41,7 +42,8 @@
     "rollup-plugin-add-shebang": "^0.3.1",
     "rollup-plugin-executable": "^1.6.3",
     "rollup-plugin-typescript2": "^0.30.0",
-    "ts-node": "^10.1.0"
+    "ts-node": "^10.1.0",
+    "semantic-release": "^18.0.0"
   },
   "jest": {
     "verbose": true
@@ -50,5 +52,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pnarielwala/template-files-generator.git"
   }
 }

@@ -1,0 +1,77 @@
+name: Publish workflow
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  setup:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/fermium'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+  typecheck:
+    name: Run Typescript typecheck
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/fermium'
+          cache: 'yarn'
+      - name: Run tsc
+        run: yarn tsc
+  test:
+    name: Run unit tests
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/fermium'
+          cache: 'yarn'
+      - name: Run unit tests
+        run: yarn jest --coverage=false --detectOpenHandles --forceExit
+  build:
+    name: Build package
+    needs:
+      - setup
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/fermium'
+          cache: 'yarn'
+      - uses: actions/cache@v2
+        with:
+          path: '**/dist'
+          key: build-dist-${{ GITHUB_SHA }}
+      - name: Run unit tests
+        run: yarn build
+  publish:
+    name: Publish expo version
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/fermium'
+          cache: 'yarn'
+      - uses: actions/cache@v2
+        with:
+          path: '**/dist'
+          key: build-dist-${{ GITHUB.SHA }}
+      - name: Publish
+        run: yarn semantic-release --debug
