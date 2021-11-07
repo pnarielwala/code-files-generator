@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: 'lts/fermium'
           cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
       - name: Run tsc
         run: yarn tsc
   # test:
