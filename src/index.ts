@@ -295,7 +295,7 @@ const generateFiles = (data: {
   );
 };
 
-const runCmd = async () => {
+export const runCmd = async () => {
   /**
    * main thread to run tfg
    */

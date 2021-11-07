@@ -1,4 +1,4 @@
-import { CLI } from './index';
+import { runCmd } from './index';
 
 import fs from 'fs';
 import chalk from 'chalk';
@@ -13,7 +13,7 @@ beforeEach(() => {
 test('check for config file', () => {
   jest.spyOn(fs, 'existsSync').mockReturnValueOnce(false);
 
-  CLI();
+  runCmd();
 
   const configPath = '/template-files-generator.config.js';
   expect(fs.existsSync).toHaveBeenCalledWith(
@@ -34,7 +34,7 @@ test('check for input config file', () => {
   const configPath = './config.js';
   const origArgv = process.argv;
   process.argv.push(...['-c', configPath]);
-  CLI();
+  runCmd();
 
   expect(fs.existsSync).toHaveBeenCalledWith('./config.js');
   expect(console.warn).toHaveBeenCalledWith(
