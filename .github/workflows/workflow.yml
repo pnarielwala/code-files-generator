@@ -50,7 +50,7 @@ jobs:
       - name: Build tool
         run: yarn build
   publish:
-    name: Publish expo version
+    name: Publish to NPM
     needs: build
     runs-on: ubuntu-latest
     steps:
