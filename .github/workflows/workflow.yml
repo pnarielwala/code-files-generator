@@ -6,17 +6,6 @@ on:
       - 'main'
 
 jobs:
-  setup:
-    name: Install dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 'lts/fermium'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
   typecheck:
     name: Run Typescript typecheck
     needs: setup
@@ -57,7 +46,9 @@ jobs:
         with:
           path: '**/dist'
           key: build-dist-${{ env.GITHUB_SHA }}
-      - name: Run unit tests
+      - name: Install dependencies
+        run: yarn install
+      - name: Build tool
         run: yarn build
   publish:
     name: Publish expo version
@@ -73,5 +64,7 @@ jobs:
         with:
           path: '**/dist'
           key: build-dist-${{ env.GITHUB_SHA }}
+      - name: Install dependencies
+        run: yarn install
       - name: Publish
         run: yarn semantic-release --debug
