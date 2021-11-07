@@ -8,34 +8,16 @@ Tool to make it easy to create file/code templates and generate them for any giv
 
 ```bash
 $ yarn global add template-files-generator
-```
 
-### Add configuration file
+OR
 
-```bash
-$ touch ~/template-files-generator.config.js
-```
-
-```js
-export default {
-  templates: {
-    'simple-component': {
-      name: 'Simple component',
-      directory: './code-templates/simple-component',
-      variables: {
-        componentName: {
-          displayName: 'Component name',
-        },
-      },
-    },
-  },
-};
+$ yarn add template-files-generator -D
 ```
 
 ## Usage
 
 ```bash
-$ tfg
+$ yarn tfg
 
 // OR
 
@@ -44,7 +26,31 @@ $ npx template-files-generator
 
 ## Configuration
 
-[TODO]
+```json
+// tfgconfig.json
+{
+  "templates": {
+    "custom-component": {
+      "name": "My Custom Component",
+      "directory": "./templates/custom-component",
+      "variables": {
+        "componentName": {
+          "displayName": "Component name?"
+        }
+      }
+    },
+    "simple-component": {
+      "name": "Simple Component",
+      "directory": "./internal/templates/custom-component",
+      "variables": {
+        "componentName": {
+          "displayName": "Component name?"
+        }
+      }
+    }
+  }
+}
+```
 
 ### TODO
 
@@ -52,4 +58,4 @@ $ npx template-files-generator
 - [x] package for npm module
 - [x] be able to install globally in development
 - [ ] clean up readme
-- [ ] publish package
+- [x] publish package
