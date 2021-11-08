@@ -252,7 +252,6 @@ const recordTemplateValues = async (template: Template) => {
     })),
   );
 
-  console.log('variables', variables);
   return variables;
 };
 
@@ -278,6 +277,16 @@ const generateFiles = (data: {
     template.directory,
   );
   const destinationDirectory = path.join(process.cwd(), data.location);
+
+  if (!fs.existsSync(templateDirectory)) {
+    console.error(
+      '\n',
+      chalk.red(`Template directory "${templateDirectory}" does not exist.`),
+      '\n',
+      'Check your configuration.',
+    );
+    process.exit(1);
+  }
 
   copy(
     templateDirectory,

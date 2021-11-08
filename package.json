@@ -12,9 +12,8 @@
   "scripts": {
     "build": "rollup -c",
     "commit": "git add . && git commit",
-    "link-global": "yarn global add $PWD",
-    "template-files-generator": "ts-node src/index.ts",
-    "tfg": "ts-node src/index.ts",
+    "dev:link": "yarn global add $PWD",
+    "dev:tfg": "ts-node src/index.ts",
     "test": "jest",
     "prepare": "husky install",
     "semantic-release": "semantic-release"
