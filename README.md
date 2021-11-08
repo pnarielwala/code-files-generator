@@ -26,8 +26,9 @@ $ npx template-files-generator
 
 ## Configuration
 
+`tfgconfig.json`
+
 ```json
-// tfgconfig.json
 {
   "templates": {
     "custom-component": {
@@ -35,7 +36,7 @@ $ npx template-files-generator
       "directory": "./templates/custom-component",
       "variables": {
         "componentName": {
-          "displayName": "Component name?"
+          "prompt": "Component name?"
         }
       }
     },
@@ -44,7 +45,8 @@ $ npx template-files-generator
       "directory": "./internal/templates/custom-component",
       "variables": {
         "componentName": {
-          "displayName": "Component name?"
+          "prompt": "Component name?",
+          "defaultCase": "camel"
         }
       }
     }
@@ -52,10 +54,6 @@ $ npx template-files-generator
 }
 ```
 
-### TODO
+## Inspriation
 
-- [x] allow for config path
-- [x] package for npm module
-- [x] be able to install globally in development
-- [ ] clean up readme
-- [x] publish package
+Partially inspired by the [generate-template-files](https://www.npmjs.com/package/generate-template-files) tool, but was looking for a simpler approach without having to write much configuration in javascript. But check out [generate-template-files](https://www.npmjs.com/package/generate-template-files) for a more robust and configurable template file generator!

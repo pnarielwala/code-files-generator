@@ -3,12 +3,33 @@ import copy from 'copy-template-dir';
 import path from 'path';
 import inquirer from 'inquirer';
 import fs from 'fs';
-import _ from 'lodash';
+import _, {
+  camelCase,
+  startCase,
+  snakeCase,
+  kebabCase,
+  lowerCase,
+  upperCase,
+  upperFirst,
+} from 'lodash';
 import os from 'os';
 import prettier from 'prettier';
 import fse from 'fs-extra';
 
 import Validator from 'validatorjs';
+import { Config, StringCase, Template } from 'types';
+
+const STRING_CASES: Array<StringCase> = [
+  'snake',
+  'pascal',
+  'camel',
+  'lower',
+  'dot',
+  'kebab',
+  'sentence',
+  'title',
+  'path',
+];
 
 const fetchConfigPath = () => {
   /**
@@ -76,6 +97,7 @@ const validateConfig = (config: Config): boolean => {
 
   const variableRules = {
     prompt: 'required|string',
+    defaultCase: `in:${STRING_CASES.join(',')}`,
   };
 
   const configValidator = new Validator(config, configRules);
@@ -211,24 +233,6 @@ const initializeTemplateDir = () => {
   return templateDir;
 };
 
-type Variable = {
-  prompt: string;
-};
-
-type Template = {
-  name: string;
-  directory: string;
-  variables: {
-    [variable: string]: Variable;
-  };
-};
-
-type Config = {
-  templates: {
-    [key: string]: Template;
-  };
-};
-
 const fetchTemplateOptions = (config: Config): Array<[string, string]> => {
   /**
    * use config object to return template options
@@ -240,6 +244,29 @@ const fetchTemplateOptions = (config: Config): Array<[string, string]> => {
   });
 };
 
+const transformCase = (value: string, caseing: StringCase) => {
+  switch (caseing) {
+    case 'camel':
+      return camelCase(value);
+    case 'snake':
+      return snakeCase(value);
+    case 'pascal':
+      return startCase(camelCase(value)).replace(/ /g, '');
+    case 'kebab':
+      return kebabCase(value);
+    case 'dot':
+      return lowerCase(value).replace(/ /g, '.');
+    case 'path':
+      return lowerCase(value).replace(/ /g, '/');
+    case 'title':
+      return startCase(camelCase(value));
+    case 'sentence':
+      return upperFirst(lowerCase(value));
+    case 'lower':
+      return lowerCase(value).replace(/ /g, '');
+  }
+};
+
 const recordTemplateValues = async (template: Template) => {
   /**
    * prompt and record values for specific template
@@ -249,10 +276,37 @@ const recordTemplateValues = async (template: Template) => {
       type: 'input',
       name: variable,
       message: prompt,
+      validate: (input) => {
+        if (input === undefined || input === '') {
+          return false;
+        } else {
+          return true;
+        }
+      },
     })),
   );
 
-  return variables;
+  const sideCarVariables = Object.entries(variables).reduce(
+    (acc, [variable, value]) => {
+      const defaultCase = template.variables[variable].defaultCase;
+      return {
+        ...acc,
+        [variable]: transformCase(String(value), defaultCase ?? 'pascal'),
+        [`${variable}_pascal`]: transformCase(String(value), 'pascal'),
+        [`${variable}_camel`]: transformCase(String(value), 'camel'),
+        [`${variable}_snake`]: transformCase(String(value), 'snake'),
+        [`${variable}_kebab`]: transformCase(String(value), 'kebab'),
+        [`${variable}_lower`]: transformCase(String(value), 'lower'),
+        [`${variable}_sentence`]: transformCase(String(value), 'sentence'),
+        [`${variable}_title`]: transformCase(String(value), 'title'),
+        [`${variable}_path`]: transformCase(String(value), 'path'),
+        [`${variable}_dot`]: transformCase(String(value), 'dot'),
+      };
+    },
+    {},
+  );
+
+  return sideCarVariables;
 };
 
 const generateTemplateFiles = () => {
@@ -347,6 +401,13 @@ export const runCmd = async () => {
     name: 'location',
     message: 'Where do you want to generate it? (e.g. src/components)',
     filter: (input) => _.trim(input, '/'), // trim leading/trailing whitespace and slashes
+    validate: (input) => {
+      if (input === undefined || input === '') {
+        return false;
+      } else {
+        return true;
+      }
+    },
   });
 
   const variables = await recordTemplateValues(
